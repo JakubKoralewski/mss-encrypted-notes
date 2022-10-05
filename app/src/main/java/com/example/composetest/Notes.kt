@@ -295,7 +295,6 @@ fun AddNote(onNewNoteAdded: (Note) -> Unit) {
                 },
                 onCancel = { shouldCheckPassword.value = false },
                 ivIfDecrypting = null
-//                hint = "Please repeat password to encrypt new note"
             )
             Button(
                 onClick = {

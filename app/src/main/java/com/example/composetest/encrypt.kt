@@ -15,44 +15,12 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-//const val TRANSFORMATION = "AES/CBC/PKCS5Padding"
-//const val ALGORITHM = "PBKDF2WithHmacSHA1"
-//const val KEY_SPEC = "AES"
-//const val ITERATIONS = 10000
-//const val KEY_SIZE = 256
-//const val SALT_SIZE = KEY_SIZE / 8
 const val KEY_NAME = "majki5"
 
 class NoteEncoder {
-    //    public val salt: ByteArray
-//    public val iv: ByteArray
     public lateinit var iv: ByteArray
 
-    constructor(password: BiometricPrompt.CryptoObject) {
-//        generateSecretKey(KeyGenParameterSpec.Builder(
-//            KEY_NAME,
-//            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-//            .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-//            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-//            .setUserAuthenticationRequired(true)
-//            // Invalidate the keys if the user has registered a new biometric
-//            // credential, such as a new fingerprint. Can call this method only
-//            // on Android 7.0 (API level 24) or higher. The variable
-//            // "invalidatedByBiometricEnrollment" is true by default.
-//            .setInvalidatedByBiometricEnrollment(true)
-//            .build()
-//        )
-
-//        iv = cipher(password, encrypt = true).iv
-
-//        salt = ByteArray(SALT_SIZE)
-//        SecureRandom().nextBytes(salt)
-////        key = calculateKey(password, salt)
-//
-//        val cipher = Cipher.getInstance(TRANSFORMATION)
-//        iv = ByteArray(cipher.blockSize)
-//        SecureRandom().nextBytes(iv)
-    }
+    constructor(password: BiometricPrompt.CryptoObject) {}
 
     private fun cipher(password: BiometricPrompt.CryptoObject, encrypt: Boolean): Cipher {
         val key = getSecretKey()
@@ -70,9 +38,6 @@ class NoteEncoder {
     }
 
     fun encode(string: String, password: BiometricPrompt.CryptoObject): ByteArray {
-//        val cipher = Cipher.getInstance(TRANSFORMATION)
-//        val ivParams = IvParameterSpec(iv)
-//        cipher.init(Cipher.ENCRYPT_MODE, key, ivParams)
         return cipher(password, encrypt = true).doFinal(string.toByteArray(Charsets.UTF_8))
     }
 
@@ -82,12 +47,6 @@ class NoteEncoder {
 
     companion object {
         fun fromDb(ba: ByteArray): NoteEncoder {
-//            val keySizeBytes = KEY_SIZE/8;
-//            val keyString = ba.copyOfRange(0, keySizeBytes) // 0..32
-//            val key = SecretKeySpec(keyString, KEY_SPEC)
-//            val salt = ba.copyOfRange(keySizeBytes, keySizeBytes + SALT_SIZE) // 32..64
-//            val iv = ba.copyOfRange(keySizeBytes + SALT_SIZE, keySizeBytes + SALT_SIZE + Cipher.getInstance(TRANSFORMATION).blockSize) // 64..80
-
             return NoteEncoder(ba)
         }
     }
@@ -159,22 +118,4 @@ fun getCipher(): Cipher {
                 + KeyProperties.ENCRYPTION_PADDING_PKCS7
     )
 }
-
-
-//private fun calculateKey(
-//    password: String,
-//    salt: ByteArray
-//): SecretKeySpec =
-//    SecretKeySpec(
-//        SecretKeyFactory.getInstance(ALGORITHM)
-//            .generateSecret(
-//                PBEKeySpec(
-//                    password.toCharArray(),
-//                    salt,
-//                    ITERATIONS,
-//                    KEY_SIZE
-//                )
-//            ).encoded,
-//        KEY_SPEC
-//    )
 

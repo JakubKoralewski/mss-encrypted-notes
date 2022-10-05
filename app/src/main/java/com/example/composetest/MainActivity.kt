@@ -57,58 +57,11 @@ fun App() {
     val context = LocalContext.current
 
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-//    val timeSinceDelayPassed = timeSinceAfterDelayPassed(sharedPreferences)
-//    if (timeSinceDelayPassed < 0) {
-//        Toast.makeText(
-//            context,
-//            "You need to wait additional ${-timeSinceDelayPassed / 1000}s",
-//            Toast.LENGTH_SHORT
-//        ).show()
-//        Thread.sleep(-timeSinceDelayPassed)
-//    }
 
-    // TODO: add reset password logic, use Android settings in the mean time
-//    val password = loadPassword(sharedPreferences)
-//    var passwordState by remember {
-//        mutableStateOf(
-//            if (password.hashedPassword == null) PasswordState.NoPasswordSet else PasswordState.PasswordSet
-//        )
-//    }
     var loginState by remember {
         mutableStateOf(LoginState.Unauthenticated)
     }
-//    val lifecycle = LocalLifecycleOwner.current.lifecycle
-//    DisposableEffect(Unit) {
-//        val observer = LifecycleEventObserver { _, event ->
-//            when (event) {
-//                Lifecycle.Event.ON_STOP, Lifecycle.Event.ON_DESTROY -> {
-//                    loginState = LoginState.Unauthenticated
-//                    Toast.makeText(
-//                        context,
-//                        "Reenter the password for your safety next time",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//                else -> {}
-//            }
-//        }
-//        lifecycle.addObserver(observer)
-//        onDispose {
-//            lifecycle.removeObserver(observer)
-//        }
-//    }
-//    if (passwordState == PasswordState.PasswordSet) {
-//        if (password.hashingMethod != DEFAULT_HASHING_ALGO) {
-//            // If the given hashing algorithm is ever compromised and an update to the app is distributed
-//            // that will change the hashing algorithm used, here the logic to reset the password should begin
-//            Toast.makeText(
-//                context,
-//                "The password hashing method has been changed!",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//            throw Exception("Invalid hashing algorithm!")
-//        }
-//    }
+
     val onPasswordInputDone = { _: BiometricPrompt.CryptoObject? ->
         loginState = LoginState.Authenticated
     }
@@ -122,7 +75,6 @@ fun App() {
                 enter = slideInHorizontally(spring()) { w -> -widthPx / 2 - w },
                 exit = slideOutHorizontally(spring()) { w -> +widthPx / 2 + w },
             ) {
-//                Login(onPasswordInputDone, passwordState, requestFocus = true)
                 Login(onLogin = onPasswordInputDone, useCipher = false, ivIfDecrypting = null)
             }
 
